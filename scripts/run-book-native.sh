@@ -69,7 +69,6 @@ mkdir -p ${dist}
 
 NP=${PWD}/node_modules:${NODE_PATH}
 
-#source deploy/bin/activate
 
 DISABLE_CONTRACTS=1 NODE_PATH=${NP}  mcdp-render-manual \
     --src ${src} \
