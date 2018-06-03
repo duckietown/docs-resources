@@ -9,7 +9,7 @@ update-resources:
 	# git submodule update --init --recursive
 
 compile-native: update-resources
-	./run-book-native.sh $(BOOKNAME) $(SRC) $(RESOURCES)
+	./run-book-native.sh $(BOOKNAME) $(SRC) $(RESOURCES) $(PWD)
 
 gitdir:=$(shell git rev-parse --show-superproject-working-tree)
 pwd1:=$(shell realpath $(PWD))
