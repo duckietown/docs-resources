@@ -2,6 +2,11 @@
 clean:
 	rm -rf out duckuments-dist
 
+update-resources:
+	git submodule sync --recursive
+	git submodule update --init --recursive
+
+
 compile-native: update-resources
 	./run-book-native.sh $(BOOKNAME) $(SRC) $(RESOURCES)
 
@@ -12,6 +17,7 @@ compile-docker: update-resources
 		-v $(PWD):/duckuments \
 		-v $(PWD):/home/$(USER) \
 		-e USER=$(USER) -e USERID=`id -u` --user `id -u` \
+		-e COLUMNS="`tput cols`"\
 		$(IMAGE) \
 		$(BOOKNAME) $(SRC)
 
