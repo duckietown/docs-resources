@@ -5,8 +5,8 @@ clean:
 
 update-resources:
 
-	#git submodule sync --recursive
-	#git submodule update --init --recursive
+	# git submodule sync --recursive
+	# git submodule update --init --recursive
 
 compile-native: update-resources
 	./run-book-native.sh $(BOOKNAME) $(SRC) $(RESOURCES)
