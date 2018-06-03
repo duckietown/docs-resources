@@ -13,6 +13,8 @@ compile-native: update-resources
 
 gitdir:=$(shell git rev-parse --show-superproject-working-tree)
 pwd1:=$(shell realpath $(PWD))
+uid1:=$(shell id -u)
+cols:=$(shell tput cols)
 
 compile-docker: update-resources
 	# docker pull $(IMAGE)
@@ -21,11 +23,11 @@ compile-docker: update-resources
 		-v $(gitdir):$(gitdir) \
 		-v $(pwd1):$(pwd1) \
 		-v /tmp:/home/$(USER) \
-		-e USER=$(USER) -e USERID=`id -u` --user `id -u` \
-		-e COLUMNS="`tput cols`"\
-		$(IMAGE) \
-		$(BOOKNAME) $(SRC) $(RESOURCES) \
-		$(pwd1)
+		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
+		-e COLUMNS=$(cols)\
+		"$(IMAGE)" \
+		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
+		"$(pwd1)"
 
 
 install-docker-ubuntu16:
