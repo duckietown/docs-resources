@@ -31,11 +31,11 @@ compile-docker: update-resources
 
 compile-docker-mac: update-resources
 	# docker pull $(IMAGE)
-	mkdir -p /tmp/fake-$(USER)-home
+	mkdir -p /private/tmp/fake-$(USER)-home
 	docker run \
 		-v $(gitdir):$(gitdir):delegated \
 		-v $(pwd1):$(pwd1):delegated \
-		-v /tmp/fake-$(USER)-home:/home/$(USER):delegated \
+		-v /private/tmp/fake-$(USER)-home:/home/$(USER):delegated \
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
 		"$(IMAGE)" \
