@@ -18,17 +18,29 @@ cols:=$(shell tput cols)
 
 compile-docker: update-resources
 	# docker pull $(IMAGE)
-
+	mkdir -p /tmp/fake-$(USER)-home
 	docker run \
 		-v $(gitdir):$(gitdir) \
 		-v $(pwd1):$(pwd1) \
-		-v /tmp:/home/$(USER) \
+		-v /tmp/fake-$(USER)-home:/home/$(USER) \
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
 		"$(IMAGE)" \
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
 		"$(pwd1)"
 
+compile-docker-mac: update-resources
+	# docker pull $(IMAGE)
+	mkdir -p /tmp/fake-$(USER)-home
+	docker run \
+		-v $(gitdir):$(gitdir):delegated \
+		-v $(pwd1):$(pwd1):delegated \
+		-v /tmp/fake-$(USER)-home:/home/$(USER):delegated \
+		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
+		-e COLUMNS=$(cols)\
+		"$(IMAGE)" \
+		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
+		"$(pwd1)"
 
 install-docker-ubuntu16:
 	sudo apt-get remove docker docker-engine docker.io
