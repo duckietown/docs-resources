@@ -8,8 +8,10 @@ update-resources:
 	# git submodule sync --recursive
 	# git submodule update --init --recursive
 
+THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 compile-native: update-resources
-	./run-book-native.sh $(BOOKNAME) $(SRC) $(RESOURCES) $(PWD)
+	$(THIS_DIR)/../scripts/run-book-native.sh "$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" "$(PWD)"
 
 gitdir:=$(shell git rev-parse --show-superproject-working-tree)
 pwd1:=$(shell realpath $(PWD))
