@@ -14,7 +14,8 @@ THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 compile-native: update-resources
 	$(THIS_DIR)/../scripts/run-book-native.sh "$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" "$(PWD)"
 
-gitdir:=$(shell git rev-parse --show-superproject-working-tree)
+#gitdir:=$(shell git rev-parse --show-superproject-working-tree)
+gitdir:=$(shell git rev-parse --show-toplevel)
 pwd1:=$(shell realpath $(PWD))
 uid1:=$(shell id -u)
 cols:=$(shell tput cols)
