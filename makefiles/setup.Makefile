@@ -1,10 +1,11 @@
 RESOURCES=resources
 
+IMAGE?=andreacensi/duckuments:master
+
 clean:
 	rm -rf out duckuments-dist
 
 update-resources:
-
 	# git submodule sync --recursive
 	# git submodule update --init --recursive
 
