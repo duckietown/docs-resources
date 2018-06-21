@@ -60,6 +60,11 @@ install-docker-ubuntu16:
 	echo "Adding user to docker group"
 	sudo adduser $USER docker
 
+	echo
+	echo
+	echo "Note: type "groups" and see if "docker" appears. If not, close the shell and restart another one."
+	echo "Sometimes the group update does not take effect immediately."
+
 
 # only for CI
 compile-native-ci:
