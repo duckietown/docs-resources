@@ -58,7 +58,7 @@ install-docker-ubuntu16:
 	sudo apt-get install docker-ce
 
 	echo "Adding user to docker group"
-	sudo adduser $USER docker
+	sudo adduser $(USER) docker
 
 
 # only for CI
