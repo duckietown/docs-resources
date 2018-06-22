@@ -14,7 +14,7 @@ THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 compile-native: update-resources
 	$(THIS_DIR)/../scripts/run-book-native.sh "$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" "$(PWD)"
 
-#gitdir:=$(shell git rev-parse --show-superproject-working-tree)
+gitdir_super:=$(shell git rev-parse --show-superproject-working-tree)
 gitdir:=$(shell git rev-parse --show-toplevel)
 pwd1:=$(shell realpath $(PWD))
 uid1:=$(shell id -u)
@@ -22,13 +22,17 @@ cols:=$(shell tput cols)
 
 compile-docker: update-resources
 	# docker pull $(IMAGE)
+	echo gitdir = $(gitdir)
+	echo gitdir_super = $(gitdir_super)
 	mkdir -p /tmp/fake-$(USER)-home
 	docker run \
 		-v $(gitdir):$(gitdir) \
+		-v $(gitdir_super):$(gitdir_super) \
 		-v $(pwd1):$(pwd1) \
 		-v /tmp/fake-$(USER)-home:/home/$(USER) \
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
+		-ti \
 		"$(IMAGE)" \
 		/project/run-book-native.sh \
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
