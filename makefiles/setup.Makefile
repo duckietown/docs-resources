@@ -30,6 +30,7 @@ compile-docker: update-resources
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
 		"$(IMAGE)" \
+		/project/run-book-native.sh \
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
 		"$(pwd1)"
 
