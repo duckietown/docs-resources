@@ -1,6 +1,6 @@
 RESOURCES=resources
 
-IMAGE?=andreacensi/mcdp_books:master
+IMAGE?=andreacensi/mcdp_books:duckuments
 
 clean:
 	rm -rf out duckuments-dist
