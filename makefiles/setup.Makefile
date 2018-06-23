@@ -75,3 +75,6 @@ install-docker-ubuntu16:
 compile-native-ci:
 	. /project/deploy/bin/activate && \
 		/project/run-book-native.sh "$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" "$(pwd1)"
+
+package-artifacts:
+	./resources/scripts/package-artifacts.sh out/package.tgz
