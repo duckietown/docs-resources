@@ -1,0 +1,62 @@
+digraph G {
+    ordering="out";
+    ranksep="0.8";
+    fontname="sans-serif";
+    rank="same";
+    penwidth="0.1";
+    edge [comment="Wildcard edge", 
+          fontname="sans-serif", 
+          fontsize=10, 
+          colorscheme="blues3", 
+          color=2, 
+          fontcolor=3];
+    node [style="filled", 
+          colorscheme="blues4", 
+          color="2", 
+          fontname="serif", 
+          distortion="0.5", 
+          width="3.0", 
+          fontsize=13, 
+          fillcolor="1", 
+          fontcolor="4", 
+          height="1.0"];
+    "straight_lane" [label="Drive on straight lane (Controllers)"];
+    "curved_lane" [label="Drive on curved lane (Controllers)"];
+    "straight_lane" -> "curved_lane"  [label="Curved lane detected"];
+    "curved_lane" -> "straight_lane"  [label="Straight lane detected"];
+    "emergency_stop" [label="Emergency stop"];
+    "curved_lane" -> "emergency_stop"  [label="Emergency_stop flag set"];
+    "straight_lane" -> "emergency_stop"  [label="Emergency_stop flag set"];
+    "emergency_stop" -> "curved_lane"  [label="Emergency_stop flag reset, curved lane"];
+    "emergency_stop" -> "straight_lane"  [label="Emergency_stop flag reset, straight lane"];
+    "avoid_obstacle" [label="Avoid obstacle (Saviors give reference d)"];
+    "straight_lane" -> "avoid_obstacle"  [label="obstacle_flag set"];
+    "avoid_obstacle" -> "straight_lane"  [label="obstacle_flag reset"];
+    "red_line" [label="Stop at red line (Controllers)"];
+    "straight_lane" -> "red_line"  [label="Red line detected"];
+    "curved_lane" -> "red_line"  [label="Red line detected"];
+    "intersection_arrive" [label="Await direction decision"];
+    "red_line" -> "intersection_arrive"  [label="Intersection line"];
+    "parking_arrive" [label="Arrive at parking lot"];
+    "red_line" -> "parking_arrive"  [label="Parking lot line"];
+    "intersection_random" [label="Random decision (Explicit-coord)"];
+    "intersection_arrive" -> "intersection_random"  [label="Fleet planning inactive"];
+    "intersection_fleet_plan" [label="Planned decision (Fleet planning)"];
+    "intersection_arrive" -> "intersection_fleet_plan"  [label="Fleet planning active"];
+    "intersection_wait" [label="Wait for turn to go (Explicit-coord)"];
+    "intersection_wait" -> "intersection_wait"  [label="Other Duckiebot's turn"];
+    "intersection_fleet_plan" -> "intersection_wait";
+    "intersection_random" -> "intersection_wait";
+    "intersection_navigate" [label="Navigate intersection (Navigators)"];
+    "intersection_wait" -> "intersection_navigate"  [label="My turn, \"go\" flag set"];
+    "intersection_straight" [label="Follow straight section (Controllers with reference d)"];
+    "intersection_navigate" -> "intersection_straight"  [label="Straight section"];
+    "intersection_curved" [label="Follow curved section (Controllers with reference d and curvature)"];
+    "intersection_navigate" -> "intersection_curved"  [label="Curved section"];
+    "intersection_end" [label="Return to lane following (some flag?)"];
+    "intersection_navigate" -> "intersection_end"  [label="End of intersection"];
+    "intersection_end" -> "straight_lane"  [label="Straight lane detected"];
+    "intersection_end" -> "curved_lane"  [label="Curved lane detected"];
+    "intersection_curved" -> "intersection_navigate";
+    "intersection_straight" -> "intersection_navigate";
+}

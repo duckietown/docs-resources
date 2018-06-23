@@ -1,0 +1,100 @@
+digraph {
+    //node [width=2, fixedsize=true];
+    // Behaviors
+
+    subgraph acluster_behaviors {
+        node [style=filled,color=grey, shape=box];
+
+        b1 [label="behavior"];
+
+
+    }
+    // Abstract functionality
+
+    subgraph functionality {
+        node [style=filled,color=yellow,shape=box];
+
+        f2 [label="Functionality"];
+        f1 [label="Functionality"];
+        f1a [label="Functionality (alt 1)"];
+        f1b [label="Functionality (alt 2)"];
+
+        f1->f1a [style=dashed];
+        f1->f1b [style=dashed];
+
+
+        b1 -> f1;
+        b1 -> f2;
+
+
+        };
+    // concrete algorithms
+        subgraph algorithms {
+
+        node [style=filled,color="#AAAAFF",shape=box];
+
+        algo1 [label="Algorithm 1"];
+        algo2 [label="Algorithm 2"];
+
+
+        f1a -> algo1 [style=dashed];
+        f1a -> algo2 [style=dashed];
+
+        };
+
+    // implementations / libraries
+        subgraph implementation {
+
+        node [style=filled,color="#0808EE",shape=record,fontcolor=white];
+
+
+        imp1 [label="implementation 1"];
+        imp2 [label="implementation 2"];
+
+        algo1 -> imp2 [style=dashed];
+        algo1 -> imp1 [style=dashed];
+        }
+
+
+    // Data
+
+    subgraph data {
+
+        node [style=filled, color=brown, shape=box, fontcolor=white];
+
+
+        prior_knowledge [label="Prior knowledge"];
+
+
+        f1a -> prior_knowledge;
+        }
+
+    // hardware on robot
+
+        subgraph acluster_hardware {
+
+        node [style=filled, color=orange, shape=box];
+
+        hw1 [label="Robot hardware"] ;
+
+        f1a -> hw1;
+    };
+
+    // infrastructure
+
+    subgraph infrastructure {
+        node [style=filled, color="#BFFAAA", shape=box];
+
+        inf1 [label="Infrastructure"];
+
+        f1a -> inf1;
+
+
+        };
+
+
+
+    node [style=filled, color=red];
+
+
+}
