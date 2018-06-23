@@ -72,6 +72,7 @@ NP=${PWD}/node_modules:${NODE_PATH}
 
 DISABLE_CONTRACTS=1 NODE_PATH=${NP}  mcdp-render-manual \
     --src ${src} \
+    --bookshort "${short}" \
     --resources resources:${dist} \
     --stylesheet v_manual_split \
     --stylesheet_pdf v_manual_blurb_ready \
