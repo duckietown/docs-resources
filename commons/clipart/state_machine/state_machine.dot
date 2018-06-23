@@ -1,0 +1,96 @@
+digraph G {
+    ranksep="0.8";
+    fontname="sans-serif";
+    colorscheme="set38";
+    ordering="out";
+    rank="same";
+    penwidth="0.1";
+    edge [comment="Wildcard edge", 
+          fontname="sans-serif", 
+          fontsize=10];
+    node [width="3.0", 
+          style="solid, filled", 
+          fontsize=13, 
+          fillcolor="white", 
+          height="1.0", 
+          fontname="serif", 
+          distortion="0.5"];
+    subgraph cluster_intersection {
+        style=filled;
+        label="Intersection";
+        fillcolor="3";
+        colorscheme="set38";
+        edge [comment="Wildcard node added automatic in EG."];
+        node [comment="Wildcard node added automatic in EG."];
+        "intersection_random" [label="Random decision \n(Navigators)"];
+        "intersection_fleet_plan" [label="Planned decision \n(Fleet planning)"];
+        "intersection_navigate" [label="Navigate intersection \n(Navigators execute \ngiven decision, \nsupply Controllers with \nreference d and \ncurvature)"];
+        "intersection_end" [label="Return to lane following \n(some flag?)"];
+        "intersection_navigate" -> "intersection_end"  [label="End of \nintersection"];
+        "intersection_coord_explicit" [label="Coordinate which \nDuckiebot gets to go \n(Explicit-coord)"];
+        "intersection_coord_explicit" -> "intersection_coord_explicit"  [label="Other Duckiebot's \nturn"];
+        "intersection_decision" [label="Await direction decision \n(Navigators)"];
+        "intersection_decision" -> "intersection_fleet_plan"  [label="\"fleet_planning_active\" \nflag set"];
+        "intersection_decision" -> "intersection_random"  [label="both \n\"fleet_planning_active\" \nand \n\"neural_slam_active\" \nflags unset"];
+        "intersection_fleet_plan" -> "intersection_navigate";
+        "intersection_random" -> "intersection_navigate";
+        "intersection_implicit_coord" [label="Coordinate which\n Duciebot gets to go\n (Implicit-coord)"];
+        "intersection_neural_slam" [label="Planned decision \n(Neural SLAM)"];
+        "intersection_decision" -> "intersection_neural_slam"  [label="\"neural_slam_active\" \nflag set"];
+        "intersection_neural_slam" -> "intersection_navigate";
+        "intersection_implicit_coord" -> "intersection_implicit_coord"  [label="Other Duckiebot's\n turn"];
+        "intersection_decision_source" [label="Evaluate who \ngives decision"];
+        "intersection_coord_explicit" -> "intersection_decision_source"  [label="my turn, \"go\" flag set"];
+        "intersection_decision_source" -> "intersection_decision";
+        "intersection_implicit_coord" -> "intersection_decision_source"  [label="My turn, \n \"go\" flag set"];
+    }
+
+    subgraph cluster_lane {
+        style=filled;
+        label="Driving on lane";
+        fillcolor="5";
+        colorscheme="set38";
+        edge [comment="Wildcard node added automatic in EG."];
+        node [comment="Wildcard node added automatic in EG."];
+        "straight_lane" [label="Drive on straight \nor curved lane \n(Controllers)"];
+        "emergency_stop" [label="Emergency stop \n(Controllers stop \nDuckiebot)"];
+        "emergency_stop" -> "straight_lane"  [label="Emergency_stop \nflag reset"];
+        "avoid_obstacle" [label="Avoid obstacle \n(Saviors supply reference d \nand curvature \nto Controllers)"];
+        "avoid_obstacle" -> "straight_lane"  [label="obstacle_flag \nflag reset"];
+        "obstacle_detected" [label="Evaluate detected \nobstacle \n(Saviors)"];
+        subgraph "cluster_lane_implicit_coord" {
+            style="invis";
+            label="Implicit-coord active";
+            fillcolor="2";
+            colorscheme="set38";
+            edge [comment="subgraph edge wildcard"];
+            node [comment="subgraph node wildcard"];
+            "implicit_coord_front" [label="Keep following distance\n to next Duckiebot\n (Implicit-coord)"];
+            "straight_lane" -> "implicit_coord_front"  [label="If Duckiebot detected\n in front of me"];
+        }
+
+    }
+
+    subgraph cluster_parking {
+        fillcolor="7";
+        colorscheme="set38";
+        edge [comment="Wildcard node added automatic in EG."];
+        node [comment="Wildcard node added automatic in EG."];
+    }
+
+    "intersection_arrive" -> "intersection_coord_explicit"  [label="if explicit-coord"];
+    "intersection_arrive" -> "intersection_implicit_coord"  [label="if implicit-coord"];
+    "intersection_arrive" [label="Arrive at \nintersection"];
+    "intersection_end" -> "straight_lane";
+    "straight_lane" -> "red_line"  [label="Red line \ndetected"];
+    "straight_lane" -> "obstacle_detected"  [label="obstacle \ndetected"];
+    "obstacle_detected" -> "emergency_stop"  [label="Unavoidable! \nemergency_stop_flag \nflag set"];
+    "obstacle_detected" -> "avoid_obstacle"  [label="Avoidable \nobstacle_flag \nflag set"];
+    "red_line_decision" [label="Evaluate meaning \nof red line \n(April tag: Who does this?)"];
+    "red_line" -> "red_line_decision";
+    "red_line_decision" -> "intersection_arrive"  [label="Intersection \nline"];
+    "red_line_decision" -> "parking_arrive"  [label="Parking \nline"];
+    "intersection_navigate" -> "intersection_navigate"  [label="during \nintersection \nnavigation"];
+    "parking_arrive" [label="?"];
+    "red_line" [label="Stop at red line \n(Controllers)"];
+}
