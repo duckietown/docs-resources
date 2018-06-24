@@ -38,6 +38,7 @@ compile-docker: update-resources
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
 		"$(pwd1)"
 
+
 compile-docker-mac: update-resources
 	# docker pull $(IMAGE)
 	mkdir -p /private/tmp/fake-$(USER)-home
