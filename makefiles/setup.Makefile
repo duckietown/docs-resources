@@ -85,5 +85,5 @@ package-artifacts:
 
 linkcheck:
 	linkchecker --version
-	chown -R go+rwX duckuments-dist
+	chmod -R go+rwX duckuments-dist
 	linkchecker  --check-extern $(shell zsh -c "ls -1 duckuments-dist/**/out/*.html") | tee duckuments-dist/linkchecker.txt
