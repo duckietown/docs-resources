@@ -80,3 +80,7 @@ compile-native-ci:
 
 package-artifacts:
 	bash ./resources/scripts/package-artifacts.sh out/package.tgz
+
+
+linkcheck:
+	linkchecker --check-extern $(shell zsh -c "ls -1 duckuments-dist/**/out/*.html") | tee duckuments-dist/linkchecker.txt
