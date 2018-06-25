@@ -6,6 +6,7 @@ clean:
 	rm -rf out duckuments-dist
 
 update-resources:
+	echo
 	# git submodule sync --recursive
 	# git submodule update --init --recursive
 
@@ -83,4 +84,6 @@ package-artifacts:
 
 
 linkcheck:
-	linkchecker --allow-root --check-extern $(shell zsh -c "ls -1 duckuments-dist/**/out/*.html") | tee duckuments-dist/linkchecker.txt
+	linkchecker --version
+	sudo chown -R +rwX duckuments-dist
+	linkchecker  --check-extern $(shell zsh -c "ls -1 duckuments-dist/**/out/*.html") | tee duckuments-dist/linkchecker.txt
