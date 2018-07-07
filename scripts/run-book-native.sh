@@ -69,11 +69,7 @@ mkdir -p ${dist}
 
 NP=${PWD}/node_modules:${NODE_PATH}
 
-#--likebtn 5ae54e0d6fd08bb24f3a7fa1 \
-<<<<<<< HEAD
-=======
-
->>>>>>> b606860a4b8c21ffd409d29ffa96fdc21fac19e7
+#--likebtn 5ae54e0d6fd08bb24f3a7fa1 \ 
 
 DISABLE_CONTRACTS=1 NODE_PATH=${NP}  mcdp-render-manual \
     --src ${src} \
