@@ -40,19 +40,6 @@ compile-docker: update-resources
 		"$(pwd1)"
 
 
-compile-docker-mac: update-resources
-	# docker pull $(IMAGE)
-	mkdir -p /private/tmp/fake-$(USER)-home
-	docker run \
-		-v $(gitdir):$(gitdir):delegated \
-		-v $(pwd1):$(pwd1):delegated \
-		-v /private/tmp/fake-$(USER)-home:/home/$(USER):delegated \
-		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
-		-e COLUMNS=$(cols)\
-		"$(IMAGE)" \
-		/project/run-book-native.sh \
-		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
-		"$(pwd1)"
 
 install-docker-ubuntu16:
 	sudo apt-get remove docker docker-engine docker.io
