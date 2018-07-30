@@ -50,6 +50,7 @@ compile-docker-mac: update-resources
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
 		"$(IMAGE)" \
+		/project/run-book-native.sh \
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
 		"$(pwd1)"
 
@@ -61,6 +62,7 @@ install-docker-ubuntu16:
 		curl \
 		software-properties-common
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
 	sudo apt-get update
 	sudo apt-get install docker-ce
 
