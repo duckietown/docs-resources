@@ -33,9 +33,7 @@ compile-docker: update-resources
 		-v /tmp/fake-$(USER)-home:/home/$(USER) \
 		-e USER=$(USER) -e USERID=$(uid1) --user $(uid1) \
 		-e COLUMNS=$(cols)\
-		-ti \
 		"$(IMAGE)" \
-		/project/run-book-native.sh \
 		"$(BOOKNAME)" "$(SRC)" "$(RESOURCES)" \
 		"$(pwd1)"
 
